@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Pizza Margherita",
+        "price": 15.00,
+        "dish_of_the_day": true
+    },
+    {
+        "name": "Saładka grecka",
+        "price": 12.00
+    },
+    {
+        "name": "Spaghetti Carbonara",
+        "price": 20.00
+    },
+    {
+        "name": "Grillowany łosoś",
+        "price": 18.50
+    }
+]
