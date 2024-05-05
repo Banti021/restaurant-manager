@@ -1,5 +1,6 @@
 import logging
 
+import logger
 from inventory import Inventory
 from menu import Menu
 from orders import Orders
@@ -39,4 +40,5 @@ def main():
 
 
 if __name__ == '__main__':
+    logger.setup_logging()
     main()
