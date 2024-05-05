@@ -1,49 +1,51 @@
 import json
-
-from models.Dish import Dish
-from models.Drink import Drink
+import logging
 
 
 class DataLoader:
     @staticmethod
-    def load_dishes(filepath):
+    def load_items(filepath, cls):
         """
-        Loads dishes from a JSON file and returns a list of Dish objects.
-        """
-        try:
-            with open(filepath, 'r') as file:
-                dishes_data = json.load(file)
-            return [Dish(dish['name'], dish['price'], dish.get('dish_of_the_day', False)) for dish in dishes_data]
-        except FileNotFoundError:
-            print(f"File not found: {filepath}")
-            return []
-        except json.JSONDecodeError:
-            print("Failed to decode JSON.")
-            return []
-
-    @staticmethod
-    def load_drinks(filepath):
-        """
-        Loads drinks from a JSON file and returns a list of Drink objects.
+        Generic method to load items from a JSON file and returns a list of objects.
+        'cls' should be the class (Dish or Drink) that determines the type of objects to create.
         """
         try:
             with open(filepath, 'r') as file:
-                drinks_data = json.load(file)
-            return [Drink(drink['name'], drink['price']) for drink in drinks_data]
+                items_data = json.load(file)
+            return [cls(**item) for item in items_data]
         except FileNotFoundError:
-            print(f"File not found: {filepath}")
+            logging.error(f"File not found: {filepath}")
             return []
-        except json.JSONDecodeError:
-            print("Failed to decode JSON.")
+        except json.JSONDecodeError as e:
+            logging.error(f"Failed to decode JSON from {filepath}: {e}")
+            return []
+        except Exception as e:
+            logging.error(f"Unexpected error while loading items from {filepath}: {e}")
             return []
 
     @staticmethod
     def save_data(filepath, objects):
-        """
-        Saves a list of Dish or Drink objects to a JSON file.
-        """
+        original_data = None
         try:
+            with open(filepath, 'r') as file:
+                original_data = file.read()
+
+            data = [obj.to_dict() for obj in objects]
             with open(filepath, 'w') as file:
-                json.dump([obj.__dict__ for obj in objects], file, indent=4)
-        except IOError:
-            print(f"Error saving data to file: {filepath}")
+                json.dump(data, file, indent=4)
+            logging.info("Data successfully saved.")
+        except Exception as e:
+            if original_data is not None:
+                with open(filepath, 'w') as file:
+                    file.write(original_data)
+                logging.error(f"Original data restored after failed save attempt: {e}")
+            else:
+                logging.error(f"Failed to restore original data because it was not read: {e}")
+            raise
+
+    @staticmethod
+    def get_next_id(items):
+        """
+        Returns the next available ID for a new item. It assumes that items may not be empty and should have an 'id' attribute.
+        """
+        return max((item.id for item in items), default=0) + 1
