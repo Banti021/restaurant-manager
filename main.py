@@ -13,7 +13,7 @@ def manage_restaurant_menu():
 
 
 def manage_orders_menu():
-    Orders.manage_orders_menu()
+    Orders.display_interaction_menu()
 
 
 def manage_inventory():
