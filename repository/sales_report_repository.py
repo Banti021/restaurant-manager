@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import cast, Integer
+
+from database.database import SessionLocal
 from models.sales_report import SalesReport
 
 
@@ -37,3 +39,16 @@ class SalesReportRepository:
 
     def get_sales_report_by_date(self, date: str):
         return self.session.query(SalesReport).filter(SalesReport.date == cast(date, Integer)).first()
+
+
+class SalesReportRepositoryManager:
+    def __enter__(self):
+        self.session = SessionLocal()
+        self.repository = SalesReportRepository(self.session)
+        return self.repository
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.session.close()
+        if exc_type:
+            raise exc_val
+        return True
