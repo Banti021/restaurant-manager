@@ -37,6 +37,13 @@ class DishRepository:
         self.session.commit()
         return dish
 
+    def set_dish_of_the_day(self, dish_id: int):
+        dish = self.get_dish_by_id(dish_id)
+        dish.dish_of_the_day = True
+        self.session.commit()
+        self.session.refresh(dish)
+        return dish
+
 
 class DishRepositoryManager:
     def __enter__(self):
