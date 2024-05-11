@@ -4,5 +4,5 @@ psycopg2==2.9.9
 Pygments==2.18.0
 python-dotenv==1.0.1
 rich==13.7.1
-
 SQLAlchemy~=2.0.30
+pytest~=8.2.0
