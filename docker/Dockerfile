@@ -18,6 +18,3 @@ RUN apt-get update \
 
 # Expose port 5000 for the application
 EXPOSE 5000
-
-# Run the migration script to set up the database
-CMD ["python", "database/migrate_db.py"]

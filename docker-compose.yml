@@ -4,18 +4,13 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_DB: restaurant
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: restaurant_manager
+      POSTGRES_USER: restaurant_manager
+      POSTGRES_PASSWORD: restauranto
     ports:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U root"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 volumes:
   db-data:
