@@ -18,14 +18,14 @@ class DrinkService:
             return repository.get_drink_by_name(name)
 
     @staticmethod
-    def create_drink(name: str, price: float, alcohol_content: float):
+    def create_drink(name: str, price: float, is_alcoholic: str, alcohol_content: int):
         with DrinkRepositoryManager() as repository:
-            return repository.create_drink(name, price, alcohol_content)
+            return repository.create_drink(name, price, is_alcoholic == 't', alcohol_content)
 
     @staticmethod
-    def update_drink(drink_id: int, name: str, price: float, alcohol_content: float):
+    def update_drink(drink_id: int, name: str, price: float, is_alcoholic: str, alcohol_content: int):
         with DrinkRepositoryManager() as repository:
-            return repository.update_drink(drink_id, name, price, alcohol_content)
+            return repository.update_drink(drink_id, name, price, is_alcoholic == 't', alcohol_content)
 
     @staticmethod
     def delete_drink(drink_id: int):
