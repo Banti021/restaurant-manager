@@ -1,18 +1,17 @@
-class Dish:
-    def __init__(self, id, name, price, dish_of_the_day=False):
-        self.id = id
+from sqlalchemy import Column, Integer, String, Numeric, Boolean
+from database.database import Base
+
+
+class Dish(Base):
+    __tablename__ = "dishes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    price = Column(Numeric(6, 2), nullable=False)
+    dish_of_the_day = Column(Boolean, default=False)
+
+    def __init__(self, name: str, price: float, dish_of_the_day: bool):
         self.name = name
         self.price = price
         self.dish_of_the_day = dish_of_the_day
 
-    def __str__(self):
-        dish_status = " - danie dnia" if self.dish_of_the_day else ""
-        return f"{self.id}. {self.name} - {self.price} PLN{dish_status}"
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'price': self.price,
-            'dish_of_the_day': self.dish_of_the_day
-        }
