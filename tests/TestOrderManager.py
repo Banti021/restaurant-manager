@@ -9,7 +9,7 @@ class TestOrderManager(unittest.TestCase):
     def test_get_order_details(self, mock_get_input):
         mock_get_input.side_effect = ['Adam', '100', '1,2', '1,2', 'True']
         expected = ('Adam', 100.0, ['1', '2'], ['1', '2'], True)
-        result = OrderManager.get_order_details()
+        result = OrderManager.create_order()
         self.assertEqual(result, expected)
 
     @patch('utils.data_loader.DataLoader.load_items')

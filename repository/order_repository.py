@@ -15,11 +15,14 @@ class OrderRepository:
     def get_order_by_id(self, order_id: int):
         return self.session.query(Order).filter(Order.id == cast(order_id, Integer)).first()
 
+    def get_open_orders(self):
+        return self.session.query(Order).filter(Order.status == cast("open", String)).all()
+
     def get_order_by_customer(self, customer: str):
         return self.session.query(Order).filter(Order.customer == cast(customer, String)).first()
 
-    def create_order(self, customer: str, order_date: str):
-        order = Order(customer=customer, order_date=order_date)
+    def create_order(self, customer: str, total: float):
+        order = Order(customer=customer, total=total)
         self.session.add(order)
         self.session.commit()
         return order

@@ -1,30 +1,42 @@
 from models import dish, drink
-from models.dish import Dish
-from models.drink import Drink
 from models.order import Order
 from utils.console_manager import ConsoleManager
 from utils.data_loader import DataLoader
+from services.drink_service import DrinkService
+from services.dish_service import DishService
 
 
 class OrderManager:
     @staticmethod
-    def get_order_details():
-        dishes = DataLoader.load_items('data/dishes.json', Dish)
-        drinks = DataLoader.load_items('data/drinks.json', Drink)
+    def create_order():
+        dishes = DishService.get_all_dishes()
+        drinks = DrinkService.get_all_drinks()
 
         ConsoleManager.display_message("Dostępne dania i napoje:")
-        for dishes in dishes:
-            ConsoleManager.display_message(str(dish))
-        for drinks in drinks:
-            ConsoleManager.display_message(str(drink))
+        for DISH in dishes:
+            ConsoleManager.display_message(str(DISH))
+        for DRINK in drinks:
+            ConsoleManager.display_message(str(DRINK))
 
         customer = ConsoleManager.get_input("Podaj nazwę klienta: ")
-        total = float(ConsoleManager.get_input("Podaj łączną cenę zamówienia: "))
         dishes = ConsoleManager.get_input("Podaj id dań (oddzielone przecinkiem): ").split(',')
         drinks = ConsoleManager.get_input("Podaj id napojów (oddzielone przecinkiem): ").split(',')
-        status = True
 
-        return customer, total, dishes, drinks, status
+        dish_cost = sum([OrderManager._get_dish_cost(int(dish_id)) for dish_id in dishes])
+        drink_cost = sum([OrderManager._get_drink_cost(int(drink_id)) for drink_id in drinks])
+        total = dish_cost + drink_cost
+
+        return customer, total, dishes, drinks
+
+    @staticmethod
+    def _get_dish_cost(dish_id: int):
+        dish_db = DishService.get_dish_by_id(dish_id)
+        return dish_db.price
+
+    @staticmethod
+    def _get_drink_cost(drink_id: int):
+        drink_db = DrinkService.get_drink_by_id(drink_id)
+        return drink_db.price
 
     @staticmethod
     def save_new_order(order: Order):

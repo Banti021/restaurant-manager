@@ -13,6 +13,11 @@ class OrderService:
             return repository.get_order_by_id(order_id)
 
     @staticmethod
+    def get_open_orders():
+        with OrderRepositoryManager() as repository:
+            return repository.get_open_orders()
+
+    @staticmethod
     def get_order_by_customer(customer: str):
         with OrderRepositoryManager() as repository:
             return repository.get_order_by_customer(customer)
@@ -23,9 +28,9 @@ class OrderService:
             return repository.get_order_by_date(order_date)
 
     @staticmethod
-    def create_order(customer: str, order_date: str):
-        with OrderRepositoryManager() as repo:
-            return repo.create_order(customer, order_date)
+    def create_order(customer: str, total: float):
+        with OrderRepositoryManager() as repository:
+            return repository.create_order(customer, total)
 
     @staticmethod
     def update_order(order_id: int, customer: str, order_date: str):

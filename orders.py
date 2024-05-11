@@ -1,10 +1,16 @@
 import logging
+from collections import Counter
 
 from models.order import Order
 from utils.console_manager import ConsoleManager
 from utils.data_loader import DataLoader
 from utils.interactive_menu_handler import InteractiveMenuHandler
 from utils.order_manager import OrderManager
+from services.order_service import OrderService
+from services.dish_service import DishService
+from services.drink_service import DrinkService
+from services.order_dish_service import OrderDishService
+from services.order_drink_service import OrderDrinkService
 
 
 class Orders:
@@ -22,28 +28,44 @@ class Orders:
 
     @staticmethod
     def display_open_orders():
-        orders = DataLoader.load_items('data/orders.json', Order)
-        orders = [order for order in orders if not order.is_closed]
+        try:
+            orders = OrderService.get_open_orders()
+            ConsoleManager.clear_screen()
+            ConsoleManager.display_message("Otwarte zamówienia:")
 
-        ConsoleManager.clear_screen()
-        ConsoleManager.display_message("Otwarte zamówienia:")
-        for order in orders:
-            ConsoleManager.display_message(str(order))
+            for order in orders:
+                ConsoleManager.display_message(str(order))
 
-        input("Naciśnij Enter aby wrócić do menu...")
-        ConsoleManager.clear_screen()
+            input("Naciśnij Enter aby wrócić do menu...")
+            ConsoleManager.clear_screen()
+
+        except Exception as e:
+            logging.error(f"Nie udało się wyświetlić zamówień: {e}")
+            ConsoleManager.display_message(f"Nie udało się wyświetlić zamówień: {e}")
 
     @staticmethod
     def add_order():
         try:
-            customer, total, dishes, drinks, status = OrderManager.get_order_details()
-            order_id = DataLoader.get_next_id('data/orders.json')
-            order = Order(order_id, customer, total, dishes, drinks, status)
-            OrderManager.save_new_order(order)
+            customer, total, dishes, drinks = OrderManager.create_order()
+            order = OrderService.create_order(customer, total)
+            order_id = order.id
+            dish_counts = Orders.count_quantity(dishes)
+            drink_counts = Orders.count_quantity(drinks)
+
+            for dish_id, quantity in dish_counts.items():
+                OrderDishService.create_order_dish(order_id, dish_id, quantity)
+
+            for drink_id, quantity in drink_counts.items():
+                OrderDrinkService.create_order_drink(order_id, drink_id, quantity)
+
             ConsoleManager.display_message("Zamówienie zostało dodane.")
         except Exception as e:
             logging.error(f"Nie udało się dodać zamówienia: {e}")
             ConsoleManager.display_message(f"Nie udało się dodać zamówienia: {e}")
+
+    @staticmethod
+    def count_quantity(items: list[int]) -> dict[int, int]:
+        return dict(Counter(items))
 
     @staticmethod
     def remove_order():
@@ -72,6 +94,3 @@ class Orders:
         except Exception as e:
             logging.error(f"Nie udało się zaktualizować zamówienia: {e}")
             ConsoleManager.display_message(f"Nie udało się zaktualizować zamówienia: {e}")
-
-
-
