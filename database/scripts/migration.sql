@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS drinks (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
     price DECIMAL(6,2) NOT NULL,
+    is_alcoholic BOOLEAN DEFAULT FALSE,
     alcohol_content DECIMAL(3,1) DEFAULT 0
 );
 
@@ -16,7 +17,7 @@ CREATE TABLE IF NOT EXISTS orders (
     id SERIAL PRIMARY KEY,
     customer VARCHAR(255) NOT NULL,
     total DECIMAL(10,2) NOT NULL,
-    status VARCHAR(50) DEFAULT 'open'
+    status INT DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS inventory (

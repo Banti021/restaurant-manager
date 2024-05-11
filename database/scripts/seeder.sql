@@ -6,26 +6,27 @@ INSERT INTO dishes (name, price, dish_of_the_day) VALUES
 ('Tiramisu', 6.00, FALSE);
 
 -- Seed drinks
-INSERT INTO drinks (name, price, alcohol_content) VALUES
-('Water', 1.50, 0),
-('Coke', 2.00, 0),
-('Beer', 3.00, 5.0),
-('Wine', 5.00, 12.0),
-('Mojito', 7.00, 10.0),
-('Margarita', 8.00, 15.0);
+INSERT INTO drinks (name, price, is_alcoholic, alcohol_content) VALUES
+('Water', 1.50, FALSE, 0),
+('Coke', 2.00, FALSE, 0),
+('Mojito Water', 12.0, FALSE, 0),
+('Beer', 3.00, FALSE, 5.0),
+('Wine', 5.00, TRUE, 12.0),
+('Mojito Drink', 7.00, TRUE, 10.0),
+('Margarita', 8.00, TRUE, 15.0);
 
 -- Seed orders
 INSERT INTO orders (customer, total, status) VALUES
-('Alice', 0.00, 'open'),
-('Bob', 0.00, 'open'),
-('Charlie', 0.00, 'open'),
-('David', 0.00, 'open'),
-('Eve', 0.00, 'open'),
-('Frank', 0.00, 'open'),
-('Grace', 0.00, 'open'),
-('Heidi', 0.00, 'open'),
-('Ivan', 0.00, 'open'),
-('Judy', 0.00, 'open');
+('Alice', 0.00, 0),
+('Bob', 0.00, 0),
+('Charlie', 0.00, 0),
+('David', 0.00, 0),
+('Eve', 0.00, 0),
+('Frank', 0.00, 0),
+('Grace', 0.00, 1),
+('Heidi', 0.00, 1),
+('Ivan', 0.00, 1),
+('Judy', 0.00, 1);
 
 -- Seed inventory
 INSERT INTO inventory (name, quantity, unit) VALUES
