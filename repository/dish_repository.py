@@ -16,17 +16,23 @@ class DishRepository:
     def get_dish_by_name(self, name: str):
         return self.session.query(Dish).filter(Dish.name == cast(name, String)).first()
 
-    def create_dish(self, dish: Dish):
+    def create_dish(self, name: str, price: float, dish_of_the_day: bool):
+        dish = Dish(name=name, price=price, dish_of_the_day=dish_of_the_day)
         self.session.add(dish)
         self.session.commit()
         return dish
 
-    def update_dish(self, dish: Dish):
-        self.session.add(dish)
+    def update_dish(self, dish_id: int, name: str, price: float, dish_of_the_day: bool):
+        dish = self.get_dish_by_id(dish_id)
+        dish.name = name
+        dish.price = price
+        dish.dish_of_the_day = dish_of_the_day
         self.session.commit()
+        self.session.refresh(dish)
         return dish
 
-    def delete_dish(self, dish: Dish):
+    def delete_dish(self, dish_id: int):
+        dish = self.get_dish_by_id(dish_id)
         self.session.delete(dish)
         self.session.commit()
         return dish
