@@ -1,4 +1,3 @@
-from models.dish import Dish
 from repository.dish_repository import DishRepositoryManager
 
 
@@ -20,16 +19,15 @@ class DishService:
 
     @staticmethod
     def create_dish(name: str, price: float, dish_of_the_day: bool):
-        new_dish = Dish(name=name, price=price, dish_of_the_day=dish_of_the_day)
-        with DishRepositoryManager() as repo:
-            return repo.create_dish(new_dish)
+        with DishRepositoryManager() as repository:
+            return repository.create_dish(name, price, dish_of_the_day)
 
     @staticmethod
-    def update_dish(dish: Dish):
+    def update_dish(dish_id: int, name: str, price: float, dish_of_the_day: bool):
         with DishRepositoryManager() as repository:
-            return repository.update_dish(dish)
+            return repository.update_dish(dish_id, name, price, dish_of_the_day)
 
     @staticmethod
-    def delete_dish(dish: Dish):
+    def delete_dish(dish_id: int):
         with DishRepositoryManager() as repository:
-            return repository.delete_dish(dish)
+            return repository.delete_dish(dish_id)
