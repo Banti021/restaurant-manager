@@ -1,15 +1,10 @@
-class Drink:
-    def __init__(self, id, name, price):
-        self.id = id
-        self.name = name
-        self.price = price
+from sqlalchemy import Column, Integer, String, Numeric
+from database.database import Base
 
-    def __str__(self):
-        return f"{self.id}. {self.name} - {self.price} PLN"
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'price': self.price
-        }
+class Drink(Base):
+    __tablename__ = "drinks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(255), nullable=False)
+    price = Column(Numeric(6, 2), nullable=False)
