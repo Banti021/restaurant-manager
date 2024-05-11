@@ -2,23 +2,24 @@ from utils.console_manager import ConsoleManager
 
 
 class InteractiveMenuHandler:
-    def __init__(self, options):
+    def __init__(self, options, previous_menus=None):
         """
         Initialize the menu handler with a list of options.
         Each option should be a tuple (description, function_to_execute).
+        `previous_menus` is a stack to keep track of menu navigation history.
         """
         self.options = options
 
     def display_menu(self):
-        ConsoleManager.display_message("\nProsze wybrac jedna z opcji (wpisz 'exit' aby wyjsc)")
         for index, (description, _) in enumerate(self.options, start=1):
             ConsoleManager.display_message(f"{index}. {description}")
 
     def handle_input(self, choice):
         if 1 <= choice <= len(self.options):
             _, action = self.options[choice - 1]
-            if action is not None:
-                action()
+            if action:
+                result = action()
+                return result
         else:
             ConsoleManager.display_message("Niepoprawny wybór, proszę spróbować ponownie.")
 
@@ -27,10 +28,11 @@ class InteractiveMenuHandler:
             self.display_menu()
             user_input = ConsoleManager.get_input("Twój wybór: ")
             if user_input.lower() == 'exit':
-                break  # Exiting the loop if the user types 'exit'
+                break
             try:
                 choice = int(user_input)
-                self.handle_input(choice)
+                result = self.handle_input(choice)
+                if result == "back":
+                    break
             except ValueError:
                 ConsoleManager.display_message("Prosze wybrac poprawna opcje lub wpisz 'exit' aby wyjsc.")
-
