@@ -59,7 +59,35 @@ def create_schema():
                 quantity INT NOT NULL,
                 unit VARCHAR(50) NOT NULL
             );
+            """,
             """
+            CREATE TABLE IF NOT EXISTS order_dishes (
+                order_id INT,
+                dish_id INT,
+                quantity INT DEFAULT 1,
+                PRIMARY KEY (order_id, dish_id),
+                FOREIGN KEY (order_id) REFERENCES orders(id),
+                FOREIGN KEY (dish_id) REFERENCES dishes(id)
+              );
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS order_drinks (
+                order_id INT,
+                drink_id INT,
+                quantity INT DEFAULT 1,
+                PRIMARY KEY (order_id, drink_id),
+                FOREIGN KEY (order_id) REFERENCES orders(id),
+                FOREIGN KEY (drink_id) REFERENCES drinks(id)
+            );
+            """,
+            """
+               CREATE TABLE IF NOT EXISTS sales_reports (
+                   report_id SERIAL PRIMARY KEY,
+                   date DATE NOT NULL,
+                   total_sales NUMERIC(10,2) NOT NULL,
+                   total_orders INT NOT NULL
+               );
+           """
         ]
 
         # Execute the SQL statements
