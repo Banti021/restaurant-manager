@@ -3,6 +3,7 @@ from sqlalchemy import cast, String, Integer
 from models.drink import Drink
 from database.database import SessionLocal
 
+
 class DrinkRepository:
     def __init__(self, session: Session):
         self.session = session
@@ -16,16 +17,17 @@ class DrinkRepository:
     def get_drink_by_name(self, name: str):
         return self.session.query(Drink).filter(Drink.name == cast(name, String)).first()
 
-    def create_drink(self, name: str, price: float, alcohol_content: float):
-        drink = Drink(name=name, price=price, alcohol_content=alcohol_content)
+    def create_drink(self, name: str, price: float, is_alcoholic: bool, alcohol_content: int):
+        drink = Drink(name=name, price=price, alcohol_content=alcohol_content, is_alcoholic=is_alcoholic)
         self.session.add(drink)
         self.session.commit()
         return drink
 
-    def update_drink(self, drink_id: int, name: str, price: float, alcohol_content: float):
+    def update_drink(self, drink_id: int, name: str, price: float, is_alcoholic: bool, alcohol_content: int):
         drink = self.get_drink_by_id(drink_id)
         drink.name = name
         drink.price = price
+        drink.is_alcoholic = is_alcoholic
         drink.alcohol_content = alcohol_content
         self.session.commit()
         self.session.refresh(drink)
@@ -49,4 +51,3 @@ class DrinkRepositoryManager:
         if exc_type:
             raise exc_val
         return True
-

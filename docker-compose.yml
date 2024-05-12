@@ -13,5 +13,19 @@ services:
       - ./database/scripts:/docker-entrypoint-initdb.d
     restart: always
 
+  test-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: test_restaurant
+      POSTGRES_USER: test_restaurant_manager
+      POSTGRES_PASSWORD: test_restauranto
+    ports:
+      - "5433:5432"
+    volumes:
+      - test-db-data:/var/lib/postgresql/data
+      - ./database/test_scripts:/docker-entrypoint-initdb.d
+    restart: always
+
 volumes:
   db-data:
+  test-db-data:

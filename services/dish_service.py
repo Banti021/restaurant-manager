@@ -28,6 +28,11 @@ class DishService:
             return repository.update_dish(dish_id, name, price, dish_of_the_day)
 
     @staticmethod
+    def set_dish_of_the_day(dish_id: int):
+        with DishRepositoryManager() as repository:
+            return repository.set_dish_of_the_day(dish_id)
+
+    @staticmethod
     def delete_dish(dish_id: int):
         with DishRepositoryManager() as repository:
             return repository.delete_dish(dish_id)
