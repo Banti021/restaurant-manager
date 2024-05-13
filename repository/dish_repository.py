@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy.orm import Session
 from sqlalchemy import cast, String, Integer
 from models.dish import Dish
@@ -52,7 +54,10 @@ class DishRepositoryManager:
         return self.repository
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.session.close()
+        try:
+            self.session.close()
+        except Exception as close_exc:
+            logging.error(f"Failed to close session: {close_exc}")
         if exc_type:
             raise exc_val
         return True

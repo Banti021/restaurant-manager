@@ -8,3 +8,6 @@ class OrderStatus(Enum):
     CANCELLED = 3
     CLOSED = 4
 
+    @staticmethod
+    def list_statuses():
+        return [(status.name, status.value) for status in OrderStatus]

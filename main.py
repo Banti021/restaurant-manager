@@ -1,4 +1,5 @@
 import logging
+import os
 
 import logger
 from inventory import Inventory
@@ -26,6 +27,7 @@ def generate_reports():
 
 def main():
     logging.basicConfig(level=logging.INFO)
+    os.environ['TERM'] = 'xterm-256color'
 
     options = [
         ("Zarządzaj menu restauracji", manage_restaurant_menu),

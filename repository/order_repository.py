@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy.orm import Session
 from sqlalchemy import cast, String, Integer
 
@@ -16,7 +18,7 @@ class OrderRepository:
         return self.session.query(Order).filter(Order.id == cast(order_id, Integer)).first()
 
     def get_open_orders(self):
-        return self.session.query(Order).filter(Order.status == cast("open", String)).all()
+        return self.session.query(Order).filter(Order.status == cast(0, Integer)).all()
 
     def get_order_by_customer(self, customer: str):
         return self.session.query(Order).filter(Order.customer == cast(customer, String)).first()
@@ -27,10 +29,9 @@ class OrderRepository:
         self.session.commit()
         return order
 
-    def update_order(self, order_id: int, customer: str, order_date: str):
+    def update_order(self, order_id: int, status: int):
         order = self.get_order_by_id(order_id)
-        order.customer = customer
-        order.order_date = order_date
+        order.status = status
         self.session.add(order)
         self.session.commit()
         return order
@@ -49,7 +50,10 @@ class OrderRepositoryManager:
         return self.repository
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.session.close()
+        try:
+            self.session.close()
+        except Exception as close_exc:
+            logging.error(f"Failed to close session: {close_exc}")
         if exc_type:
             raise exc_val
         return True

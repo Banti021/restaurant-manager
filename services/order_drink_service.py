@@ -28,9 +28,9 @@ class OrderDrinkService:
             return repository.update_order_drink(order_id, drink_id, quantity)
 
     @staticmethod
-    def delete_order_drink(order_id: int, drink_id: int):
+    def delete_order_drink(order_id: int):
         with OrderDrinkRepositoryManager() as repository:
-            return repository.delete_order_drink(order_id, drink_id)
+            return repository.delete_order_drink_id(order_id)
 
     @staticmethod
     def delete_order_drinks(order_id: int):

@@ -3,12 +3,9 @@ from collections import Counter
 
 from models.order import Order
 from utils.console_manager import ConsoleManager
-from utils.data_loader import DataLoader
 from utils.interactive_menu_handler import InteractiveMenuHandler
 from utils.order_manager import OrderManager
 from services.order_service import OrderService
-from services.dish_service import DishService
-from services.drink_service import DrinkService
 from services.order_dish_service import OrderDishService
 from services.order_drink_service import OrderDrinkService
 
@@ -70,12 +67,9 @@ class Orders:
     @staticmethod
     def remove_order():
         try:
-            orders = DataLoader.load_items('data/orders.json', Order)
-            for order in orders:
-                ConsoleManager.display_message(str(order))
-
             order_id = ConsoleManager.get_input("Podaj id zamówienia do usunięcia: ")
-            OrderManager.delete_order(order_id)
+            OrderService.delete_order(order_id)
+
             ConsoleManager.display_message("Zamówienie zostało usunięte.")
         except Exception as e:
             logging.error(f"Nie udało się usunąć zamówienia: {e}")
@@ -84,13 +78,18 @@ class Orders:
     @staticmethod
     def update_order():
         try:
-            orders = DataLoader.load_items('data/orders.json', Order)
-            for order in orders:
-                ConsoleManager.display_message(str(order))
+            ConsoleManager.display_message("Dostępne statusy zamówień:")
+
+            statuses = Order.list_statuses()
+            for name, value in statuses:
+                ConsoleManager.display_message(f"{name} - {value}")
 
             order_id = ConsoleManager.get_input("Podaj id zamówienia do zaktualizowania: ")
-            OrderManager.update_order(order_id)
-            ConsoleManager.display_message("Zamówienie zostało zaktualizowane.")
+            new_status = ConsoleManager.get_input("Podaj nowy status zamówienia: ")
+            updated_order = OrderManager.update_order(order_id, new_status)
+
+            ConsoleManager.display_message("Zamówienie zostało zaktualizowane: ")
+            ConsoleManager.display_message(str(updated_order))
         except Exception as e:
             logging.error(f"Nie udało się zaktualizować zamówienia: {e}")
             ConsoleManager.display_message(f"Nie udało się zaktualizować zamówienia: {e}")

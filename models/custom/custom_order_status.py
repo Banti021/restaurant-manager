@@ -4,6 +4,7 @@ from enums.order_status import OrderStatus
 
 class OrderStatusType(TypeDecorator):
     impl = Integer
+    cache_ok = True
 
     def process_bind_param(self, value, dialect):
         if isinstance(value, OrderStatus):

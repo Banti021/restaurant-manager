@@ -1,5 +1,5 @@
-from models import dish, drink
 from models.order import Order
+from services.order_service import OrderService
 from utils.console_manager import ConsoleManager
 from utils.data_loader import DataLoader
 from services.drink_service import DrinkService
@@ -13,8 +13,10 @@ class OrderManager:
         drinks = DrinkService.get_all_drinks()
 
         ConsoleManager.display_message("Dostępne dania i napoje:")
+        ConsoleManager.display_message("<------Dania------>")
         for DISH in dishes:
             ConsoleManager.display_message(str(DISH))
+        ConsoleManager.display_message("<------Napoje------>")
         for DRINK in drinks:
             ConsoleManager.display_message(str(DRINK))
 
@@ -51,7 +53,7 @@ class OrderManager:
         DataLoader.save_data('data/orders.json', orders)
 
     @staticmethod
-    def update_order(order_id):
-        orders = DataLoader.load_items('data/orders.json', Order)
-        orders = [order if order.id == order_id else order for order in orders]
-        DataLoader.save_data('data/orders.json', orders)
+    def update_order(order_id: int, status: int):
+        order = OrderService.update_order(order_id, status)
+        return order
+

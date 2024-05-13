@@ -13,7 +13,11 @@ class Order(Base):
     status = Column(OrderStatusType, default=OrderStatus.OPEN)
 
     def __str__(self):
-        return f"ID: {self.id}, Klient: {self.customer}, Kwota: {self.total}, Status: {self.status}"
+        return f"ID: {self.id}, Klient: {self.customer}, Kwota: {self.total}, Status: {self.status.name}"
 
     def __repr__(self):
-        return f"ID: {self.id}, Klient: {self.customer}, Kwota: {self.total}, Status: {self.status}"
+        return f"ID: {self.id}, Klient: {self.customer}, Kwota: {self.total}, Status: {self.status.name}"
+
+    @staticmethod
+    def list_statuses():
+        return OrderStatus.list_statuses()

@@ -1,3 +1,5 @@
+import logging
+
 from sqlalchemy.orm import Session
 from sqlalchemy import cast, Integer
 
@@ -40,7 +42,8 @@ class OrderDrinkRepository:
         self.session.commit()
         return order_drink
 
-    def delete_order_drinks(self, order_id: int):
+    def delete_order_drink_id(self, order_id: int):
+        logging.debug(f"Deleting order drinks for order_id: {order_id}")
         order_drinks = self.get_order_drinks(order_id)
         for order_drink in order_drinks:
             self.session.delete(order_drink)
@@ -55,8 +58,10 @@ class OrderDrinkRepositoryManager:
         return self.repository
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.session.close()
+        try:
+            self.session.close()
+        except Exception as close_exc:
+            logging.error(f"Failed to close session: {close_exc}")
         if exc_type:
             raise exc_val
         return True
-
