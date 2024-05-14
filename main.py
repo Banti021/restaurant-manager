@@ -21,8 +21,8 @@ def manage_inventory():
     Inventory.manage_inventory()
 
 
-def generate_reports():
-    Sales.generate_sales_reports()
+def manage_raports():
+    Sales.display_interaction_menu()
 
 
 def main():
@@ -33,7 +33,7 @@ def main():
         ("Zarządzaj menu restauracji", manage_restaurant_menu),
         ("Obsługa zamówień", manage_orders_menu),
         ("Zarządzanie zapasami", manage_inventory),
-        ("Generuj raporty sprzedaży", generate_reports),
+        ("Raporty sprzedaży", manage_raports),
         ("Wyjście", exit)
     ]
 
