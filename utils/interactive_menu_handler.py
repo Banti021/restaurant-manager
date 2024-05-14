@@ -11,6 +11,7 @@ class InteractiveMenuHandler:
         self.options = options
 
     def display_menu(self):
+        ConsoleManager.clear_screen() # Still not working
         for index, (description, _) in enumerate(self.options, start=1):
             ConsoleManager.display_message(f"{index}. {description}")
 
