@@ -5,6 +5,7 @@ from sqlalchemy import cast, String, Integer
 from models.dish import Dish
 from database.database import SessionLocal
 
+
 class DishRepository:
     def __init__(self, session: Session):
         self.session = session

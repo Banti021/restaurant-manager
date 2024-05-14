@@ -1,6 +1,6 @@
 import logging
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, contains_eager
 from sqlalchemy import cast, String, Integer
 
 from database.database import SessionLocal
@@ -22,6 +22,12 @@ class OrderRepository:
 
     def get_order_by_customer(self, customer: str):
         return self.session.query(Order).filter(Order.customer == cast(customer, String)).first()
+
+    def get_order_by_date_range(self, start_date: str, end_date: str, status: int):
+        return (self.session.query(Order)
+                .filter(Order.status == status)
+                .filter(Order.created_at >= start_date, Order.created_at <= end_date)
+                .all())
 
     def create_order(self, customer: str, total: float):
         order = Order(customer=customer, total=total)
