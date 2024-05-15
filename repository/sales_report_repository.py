@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from sqlalchemy.orm import Session
 from sqlalchemy import cast, Integer
@@ -11,36 +12,33 @@ class SalesReportRepository:
     def __init__(self, session: Session):
         self.session = session
 
-    def create_sales_report(self, date: str, total_sales: float, total_orders: int):
-        sales_report = SalesReport(date=date, total_sales=total_sales, total_orders=total_orders)
-        self.session.add(sales_report)
-        self.session.commit()
-        self.session.refresh(sales_report)
-        return sales_report
+    def get_all_sales_reports(self):
+        reports = self.session.query(SalesReport).all()
+        return reports
 
-    def get_sales_report(self, report_id: int):
-        return self.session.query(SalesReport).filter(SalesReport.report_id == cast(report_id, Integer)).first()
+    def get_sales_report_by_id(self, sale_id: int):
+        return self.session.query(SalesReport).filter(SalesReport.id == cast(sale_id, Integer)).first()
 
-    def get_sales_reports(self):
-        return self.session.query(SalesReport).all()
+    def get_sales_report_by_creation_date(self, date: str):
+        return self.session.query(SalesReport).filter(SalesReport.created_at == date).all()
 
-    def update_sales_report(self, report_id: int, date: str, total_sales: float, total_orders: int):
-        sales_report = self.get_sales_report(report_id)
-        sales_report.date = date
-        sales_report.total_sales = total_sales
-        sales_report.total_orders = total_orders
-        self.session.commit()
-        self.session.refresh(sales_report)
-        return sales_report
+    def get_sales_report_by_date_range(self, start_date: str, end_date: str):
+        return self.session.query(SalesReport).filter(SalesReport.date_from >= start_date, SalesReport.to <= end_date).all()
 
-    def delete_sales_report(self, report_id: int):
-        sales_report = self.get_sales_report(report_id)
-        self.session.delete(sales_report)
-        self.session.commit()
-        return sales_report
-
-    def get_sales_report_by_date(self, date: str):
-        return self.session.query(SalesReport).filter(SalesReport.date == cast(date, Integer)).first()
+    def create_sales_report(self, date_from: str, date_to: str, location: str):
+        try:
+            sales_report = SalesReport(
+                date_from=date_from,
+                date_to=date_to,
+                created_at=datetime.today().strftime('%Y-%m-%d'),
+                location=location
+            )
+            self.session.add(sales_report)
+            self.session.commit()
+            return sales_report
+        except Exception as e:
+            logging.error(f"Failed to create sales report: {e}")
+            return None
 
 
 class SalesReportRepositoryManager:

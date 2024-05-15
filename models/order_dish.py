@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
+
 from database.database import Base
 
 
@@ -14,3 +16,4 @@ class OrderDish(Base):
 
     def __repr__(self):
         return f"ID zamówienia: {self.order_id}, ID dania: {self.dish_id}, Ilość: {self.quantity}"
+

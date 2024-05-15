@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body { font-family: 'Arial'; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+</style>
+</head>
+<body>
+    <h2>Order Report</h2>
+    <h4>Date Range: {{ date_range }}</h4>
+    <h4>Total Orders: {{ total_count }}</h4>
+    <h4>Orders Value: {{ orders_value }}</h4>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Products</th>
+            <th>Total</th>
+        </tr>
+        <!-- Orders will be inserted here -->
+    </table>
+</body>
+</html>

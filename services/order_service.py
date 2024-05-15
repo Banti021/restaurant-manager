@@ -31,6 +31,11 @@ class OrderService:
             return repository.get_order_by_date(order_date)
 
     @staticmethod
+    def get_order_by_date_range(start_date: str, end_date: str, status: int):
+        with OrderRepositoryManager() as repository:
+            return repository.get_order_by_date_range(start_date, end_date, status)
+
+    @staticmethod
     def create_order(customer: str, total: float):
         logging.debug(f"Creating order for customer: {customer} with total: {total}")
         with OrderRepositoryManager() as repository:

@@ -5,29 +5,24 @@ class SalesReportService:
     @staticmethod
     def get_all_sales_reports():
         with SalesReportRepositoryManager() as repository:
-            return repository.get_sales_reports()
+            return repository.get_all_sales_reports()
 
     @staticmethod
-    def get_sales_report_by_id(report_id: int):
+    def get_sales_report_by_id(sale_id):
         with SalesReportRepositoryManager() as repository:
-            return repository.get_sales_report(report_id)
+            return repository.get_sales_report_by_id(sale_id)
 
     @staticmethod
-    def get_sales_report_by_date(date: str):
+    def get_sales_report_by_creation_date(date):
         with SalesReportRepositoryManager() as repository:
-            return repository.get_sales_report_by_date(date)
+            return repository.get_sales_report_by_creation_date(date)
 
     @staticmethod
-    def create_sales_report(date: str, total_sales: float, total_orders: int):
+    def get_sales_report_by_date_range(start_date, end_date):
         with SalesReportRepositoryManager() as repository:
-            return repository.create_sales_report(date, total_sales, total_orders)
+            return repository.get_sales_report_by_date_range(start_date, end_date)
 
     @staticmethod
-    def update_sales_report(report_id: int, date: str, total_sales: float, total_orders: int):
+    def create_sales_report(date_from, date_to, location):
         with SalesReportRepositoryManager() as repository:
-            return repository.update_sales_report(report_id, date, total_sales, total_orders)
-
-    @staticmethod
-    def delete_sales_report(report_id: int):
-        with SalesReportRepositoryManager() as repository:
-            return repository.delete_sales_report(report_id)
+            return repository.create_sales_report(date_from, date_to, location)
