@@ -1,5 +1,5 @@
 import logging
-
+from datetime import datetime
 from sqlalchemy.orm import Session, joinedload, contains_eager
 from sqlalchemy import cast, String, Integer
 
@@ -30,7 +30,7 @@ class OrderRepository:
                 .all())
 
     def create_order(self, customer: str, total: float):
-        order = Order(customer=customer, total=total)
+        order = Order(customer=customer, total=total, created_at=datetime.now())
         self.session.add(order)
         self.session.commit()
         return order
