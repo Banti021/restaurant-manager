@@ -3,30 +3,41 @@
 ## Description
 This is a simple restaurant manager that allows you to add, remove, and update menu items. It also allows you to view the menu and search for items by name or price.
 
+---
+
 ## Available functions 
 1. Manage restaurant menu
-- Display menu
-- Add dish to menu
-- Add drink to menu
-- Remove dish from menu
-- Remove drink from menu
-- Update dish
-- Update drink
-- Set dish of the day
-2. Manage orders
-- Display open orders
-- Add order
-- Update order
-- Remove order
-3. Manage inventory
-4. Generate sales report
+   - Display menu
+   - Add dish to menu
+   - Add drink to menu
+   - Remove dish from menu
+   - Remove drink from menu
+   - Update dish
+   - Update drink
+   - Set dish of the day
 
+
+2. Manage orders
+   - Display open orders
+   - Add order
+   - Update order
+   - Remove order
+
+
+3. Generate sales report
+   - Generate sales report for time period
+   - Check allready generated reports
+
+---
 ## Installation
 1. Clone the repository
 2. Create venv - `python -m venv venv`
 3. Activate venv - `source venv/bin/activate`
 4. Install requirements - `pip install -r requirements.txt`
 5. Run the program - `python main.py`
+6. For Raport Generation - `brew install wkhtmltopdf`
+
+---
 
 ## Database setup
 Install postgresql `brew install postgresql`
