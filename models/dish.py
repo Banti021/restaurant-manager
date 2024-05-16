@@ -11,9 +11,7 @@ class Dish(Base):
     name = Column(String(255), nullable=False, unique=True)
     price = Column(Numeric(6, 2), nullable=False)
     dish_of_the_day = Column(Boolean, default=False)
+    is_deleted = Column(Boolean, default=False)
 
     def __str__(self):
-        return f"{self.id}. {self.name} - {self.price} PLN" + (" - danie dnia" if self.dish_of_the_day else "")
-
-    def __repr__(self):
         return f"{self.id}. {self.name} - {self.price} PLN" + (" - danie dnia" if self.dish_of_the_day else "")

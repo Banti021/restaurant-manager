@@ -1,7 +1,7 @@
 import logging
 
 from sqlalchemy.orm import Session
-from sqlalchemy import cast, String, Integer
+from sqlalchemy import cast, String, Integer, Boolean, asc
 from models.dish import Dish
 from database.database import SessionLocal
 
@@ -11,9 +11,18 @@ class DishRepository:
         self.session = session
 
     def get_all_dishes(self):
-        return self.session.query(Dish).all()
+        return (self.session.query(Dish)
+                .filter(Dish.is_deleted == cast(False, Boolean))
+                .order_by(asc(cast(Dish.id, Integer)))
+                .all())
 
     def get_dish_by_id(self, dish_id: int):
+        return self.session.query(Dish).filter(
+            Dish.id == cast(dish_id, Integer),
+            Dish.is_deleted == cast(False, Boolean)
+        ).first()
+
+    def get_dish_by_id_with_deleted(self, dish_id: int):
         return self.session.query(Dish).filter(Dish.id == cast(dish_id, Integer)).first()
 
     def get_dish_by_name(self, name: str):
@@ -35,8 +44,8 @@ class DishRepository:
         return dish
 
     def delete_dish(self, dish_id: int):
-        dish = self.get_dish_by_id(dish_id)
-        self.session.delete(dish)
+        dish = self.get_dish_by_id_with_deleted(dish_id)
+        dish.is_deleted = True
         self.session.commit()
         return dish
 

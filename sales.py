@@ -13,7 +13,7 @@ class Sales:
     def display_interaction_menu():
         options = [
             ("Wyświetl sprzedaż", Sales.display_sales_reports),
-            ("Generuj podsumowanie raportów", Sales.generate_sales_reports),
+            ("Generuj raport podsumowania sprzedaży za okres", Sales.generate_sales_reports),
             ("Powrót", lambda: "back")
         ]
         menu_handler = InteractiveMenuHandler(options)
