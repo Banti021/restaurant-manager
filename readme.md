@@ -15,7 +15,7 @@
 - [Acknowledgements](#acknowledgements)
 
 ## Description
-Restaurant Manager is a command-line application designed to help restaurant owners efficiently manage their menu, orders, and sales reports. Leveraging the power of Python and PostgreSQL, it provides a robust back-end system capable of handling the dynamic needs of a modern restaurant.
+Restaurant Manager is a command-line application designed to help restaurant owners efficiently manage their menu, orders and sales reports. Leveraging the power of Python and PostgreSQL, it provides a robust back-end system capable of handling the dynamic needs of a modern restaurant.
 
 ## Features
 
@@ -93,7 +93,7 @@ python database/seeder.py
 ```bash
 python main.py
 ```
-Use the command-line interface to manage your restaurant's menu, orders, and generate sales reports.
+Use the command-line interface to manage your restaurant's menu, orders and generate sales reports.
 
 ## Testing
 Testing is done using the built-in `unittest` module in Python.
