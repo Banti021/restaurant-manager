@@ -40,22 +40,30 @@ Restaurant Manager is a command-line application designed to help restaurant own
 ```
 git clone https://github.com/Banti021/restaurant-manager.git
 ```
-2. Install dependencies:
+2. Create a virtual environment:
+```
+python3 -m venv venv
+```
+3. Activate the virtual environment:
+```
+source venv/bin/activate
+```
+4. Install dependencies:
 ```
 pip install -r requirements.txt
 ```
-3. Create a `.env` file in the root directory and add the following environment variables:
+5. Create a `.env` file in the root directory and add the following environment variables:
 ```
 DB_HOST=localhost
 DB_DATABASE=restaurant
 DB_USER=restaurant_manager
 DB_PASSWORD=restaurant_password
 ```
-4. Start the application using Docker:
+6. Start the application using Docker:
 ```bash
 docker-compose up
 ```
-5. Run the application:
+7. Run the application:
 ```bash
 python main.py
 ```
