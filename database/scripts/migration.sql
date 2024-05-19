@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS dishes (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
     price DECIMAL(6,2) NOT NULL,
-    dish_of_the_day BOOLEAN DEFAULT FALSE
+    dish_of_the_day BOOLEAN DEFAULT FALSE,
+    is_deleted BOOLEAN DEFAULT FALSE
 );
 
 -- Creating the 'drinks' table
@@ -12,7 +13,8 @@ CREATE TABLE IF NOT EXISTS drinks (
     name VARCHAR(255) NOT NULL UNIQUE,
     price DECIMAL(6,2) NOT NULL,
     is_alcoholic BOOLEAN DEFAULT FALSE,
-    alcohol_content DECIMAL(3,1) DEFAULT 0
+    alcohol_content DECIMAL(3,1) DEFAULT 0,
+    is_deleted BOOLEAN DEFAULT FALSE
 );
 
 -- Creating the 'orders' table
@@ -22,14 +24,6 @@ CREATE TABLE IF NOT EXISTS orders (
     total DECIMAL(10,2) NOT NULL,
     status INT DEFAULT 0,
     created_at DATE NOT NULL DEFAULT CURRENT_DATE
-);
-
--- Creating the 'inventory' table
-CREATE TABLE IF NOT EXISTS inventory (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    quantity INT NOT NULL,
-    unit VARCHAR(50) NOT NULL
 );
 
 -- Creating the 'order_dishes' table
