@@ -4,7 +4,8 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from repository.order_dish_repository import OrderDishRepository
 from models.order_dish import OrderDish
-from models.order import Order  # Ensure this is imported
+from models.dish import Dish
+from models.order import Order
 from database.database import Base
 import os
 from dotenv import load_dotenv
@@ -48,9 +49,11 @@ class TestOrderDishRepository(unittest.TestCase):
         self.session = self.Session()
         self.repo = OrderDishRepository(self.session)
 
-        # Create a test order to satisfy foreign key constraint
-        self.test_order = Order(customer="Test Customer", total=100.0)
+        # Create a test order and dishes to satisfy foreign key constraints
+        self.test_order = Order(customer="Test Customer", total=100.0, created_at=datetime.now())
         self.session.add(self.test_order)
+        self.session.add(Dish(id=1, name="Test Dish", price=10.0))
+        self.session.add(Dish(id=2, name="Test Dish 2", price=15.0))
         self.session.commit()
 
     def tearDown(self):
@@ -61,17 +64,17 @@ class TestOrderDishRepository(unittest.TestCase):
     def test_create_order_dish(self):
         order_dish = self.repo.create_order_dish(self.test_order.id, 1, 2)
         self.session.flush()
-        self.assertIsNotNone(order_dish.id)
         self.assertEqual(order_dish.order_id, self.test_order.id)
         self.assertEqual(order_dish.dish_id, 1)
         self.assertEqual(order_dish.quantity, 2)
-        self.assertIsNotNone(self.session.query(OrderDish).filter(OrderDish.id == order_dish.id).first())
+        self.assertIsNotNone(self.session.query(OrderDish).filter(OrderDish.order_id == self.test_order.id, OrderDish.dish_id == 1).first())
 
     def test_get_order_dish(self):
         order_dish = self.repo.create_order_dish(self.test_order.id, 1, 2)
         self.session.flush()
         retrieved_order_dish = self.repo.get_order_dish(self.test_order.id, 1)
-        self.assertEqual(retrieved_order_dish.id, order_dish.id)
+        self.assertEqual(retrieved_order_dish.order_id, order_dish.order_id)
+        self.assertEqual(retrieved_order_dish.dish_id, order_dish.dish_id)
 
     def test_get_order_dishes(self):
         order_dish1 = self.repo.create_order_dish(self.test_order.id, 1, 2)
