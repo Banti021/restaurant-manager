@@ -23,7 +23,7 @@ class SalesReportRepository:
         return self.session.query(SalesReport).filter(SalesReport.created_at == date).all()
 
     def get_sales_report_by_date_range(self, start_date: str, end_date: str):
-        return self.session.query(SalesReport).filter(SalesReport.date_from >= start_date, SalesReport.to <= end_date).all()
+        return self.session.query(SalesReport).filter(SalesReport.date_from >= start_date, SalesReport.date_to <= end_date).all()
 
     def create_sales_report(self, date_from: str, date_to: str, location: str):
         try:
