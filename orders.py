@@ -18,7 +18,7 @@ class Orders:
             ("Dodaj zamówienie", Orders.add_order),
             ("Aktualizuj zamówienie", Orders.update_order),
             ("Usuń zamówienie", Orders.remove_order),
-            ("Powrót", None)
+            ("Powrót", lambda: "back")
         ]
         menu_handler = InteractiveMenuHandler(options)
         menu_handler.run()
