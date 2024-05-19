@@ -15,29 +15,6 @@ INSERT INTO drinks (name, price, is_alcoholic, alcohol_content) VALUES
 ('Mojito Drink', 7.00, TRUE, 10.0),
 ('Margarita', 8.00, TRUE, 15.0);
 
--- Seed inventory
-INSERT INTO inventory (name, quantity, unit) VALUES
-('Spaghetti', 100, 'PCS'),
-('Tomato Sauce', 100, 'PCS'),
-('Eggs', 100, 'PCS'),
-('Pasta', 100, 'PCS'),
-('Flour', 100, 'PCS'),
-('Mozzarella', 100, 'PCS'),
-('Basil', 100, 'PCS'),
-('Beef', 100, 'PCS'),
-('Pork', 100, 'PCS'),
-('Chicken', 100, 'PCS'),
-('Milk', 100, 'PCS'),
-('Sugar', 100, 'PCS'),
-('Coffee', 100, 'PCS'),
-('Tea', 100, 'PCS'),
-('Lemon', 100, 'PCS'),
-('Mint', 100, 'PCS'),
-('Rum', 100, 'PCS'),
-('Vodka', 100, 'PCS'),
-('Gin', 100, 'PCS'),
-('Lime', 100, 'PCS');
-
 -- Seed orders
 INSERT INTO orders (customer, total, status, created_at) VALUES
 ('John Doe', 30, 4, '2021-10-03'),
