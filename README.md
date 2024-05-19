@@ -58,6 +58,7 @@ DB_HOST=localhost
 DB_DATABASE=restaurant
 DB_USER=restaurant_manager
 DB_PASSWORD=restaurant_password
+DB_PORT=5432
 ```
 6. Start the application using Docker:
 ```bash
