@@ -45,6 +45,7 @@ class Orders:
         try:
             customer, total, dishes, drinks = OrderManager.create_order()
             order = OrderService.create_order(customer, total)
+
             order_id = order.id
             dish_counts = Orders.count_quantity(dishes)
             drink_counts = Orders.count_quantity(drinks)

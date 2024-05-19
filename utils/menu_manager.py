@@ -16,6 +16,9 @@ class MenuManager:
         is_alcoholic = ConsoleManager.get_input("Czy napój alkoholowy (t/n): ")
         alcohol_content = ConsoleManager.get_input("Podaj zawartość alkoholu w napoju (w %). Jeśli nie dotyczy, "
                                                    "wciśnij ENTER: ")
+        if alcohol_content == '':
+            alcohol_content = 0
+
         return name, price, is_alcoholic, alcohol_content
 
     @staticmethod

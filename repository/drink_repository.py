@@ -1,7 +1,7 @@
 import logging
 
 from sqlalchemy.orm import Session
-from sqlalchemy import cast, String, Integer
+from sqlalchemy import cast, String, Integer, Boolean, asc
 from models.drink import Drink
 from database.database import SessionLocal
 
@@ -11,9 +11,18 @@ class DrinkRepository:
         self.session = session
 
     def get_all_drinks(self):
-        return self.session.query(Drink).all()
+        return (self.session.query(Drink)
+                .filter(Drink.is_deleted == cast(False, Boolean))
+                .order_by(asc(cast(Drink.id, Integer)))
+                .all())
 
     def get_drink_by_id(self, drink_id: int):
+        return self.session.query(Drink).filter(
+            Drink.id == cast(drink_id, Integer),
+            Drink.is_deleted == cast(False, Boolean)
+        ).first()
+
+    def get_drink_by_id_deleted(self, drink_id: int):
         return self.session.query(Drink).filter(Drink.id == cast(drink_id, Integer)).first()
 
     def get_drink_by_name(self, name: str):
@@ -36,8 +45,8 @@ class DrinkRepository:
         return drink
 
     def delete_drink(self, drink_id: int):
-        drink = self.get_drink_by_id(drink_id)
-        self.session.delete(drink)
+        drink = self.get_drink_by_id_deleted(drink_id)
+        drink.is_deleted = True
         self.session.commit()
         return drink
 
