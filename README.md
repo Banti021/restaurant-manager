@@ -5,14 +5,18 @@
 ![PostgreSQL](https://img.shields.io/badge/postgresql-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ## Table of Contents
+- [Authors](#authors)
 - [Description](#description)
 - [Features](#features)
 - [Installation](#installation)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
 - [Testing](#testing) 
-- [Authors](#authors)
 - [Acknowledgements](#acknowledgements)
+
+## Authors
+- Igor Lasota s24493 - [Banti021](https://github.com/Banti021)
+- Krzysztof Pawłowski s22381 - [KrzysztofPawl](https://github.com/KrzysztofPawl)
 
 ## Description
 Restaurant Manager is a command-line application designed to help restaurant owners efficiently manage their menu, orders and sales reports. Leveraging the power of Python and PostgreSQL, it provides a robust back-end system capable of handling the dynamic needs of a modern restaurant.
@@ -122,11 +126,6 @@ python -m unittest discover tests
 ```bash
 python -m unittest tests/test_file.py
 ```
-
-## Authors
-- [Banti021](https://github.com/Banti021)
-- [KrzysztofPawl](https://github.com/KrzysztofPawl)
-
 
 ## Acknowledgements
 - [Python](https://www.python.org/)
